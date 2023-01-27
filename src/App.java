@@ -6,10 +6,9 @@ import java.util.Arrays;
  * HW3 -- THREADS IN JAVA -- 
  */
 
+public class App {
 
- public class App {
-
-    //initialize global variables 
+    // initialize global variables
     public static long fang1output;
     public static long fang2output;
     public static long oddfang1output;
@@ -23,16 +22,17 @@ import java.util.Arrays;
 
         // create child thread 1
         Thread t1 = new Thread(new Runnable() {
-            //thread action on run
+            // thread action on run
             public void run() {
-                for(int i=startInterval; i<=finalInterval; i++) {
-                    //loop through numbers, if even continue
+                for (int i = startInterval; i <= finalInterval; i++) {
+                    // loop through numbers, if even continue
                     if (i % 2 == 0) {
                         boolean vampire = isVamp(i);
-                        // if vampire is found 
-                        if (vampire){
-                            //output accessing global variables 
-                            System.out.println("First worker found: " + i + " : [" + App.fang1output + "," + App.fang2output + "]");
+                        // if vampire is found
+                        if (vampire) {
+                            // output accessing global variables
+                            System.out.println("First worker found: " + i + " : [" + App.fang1output + ","
+                                    + App.fang2output + "]");
                             App.evenCount = App.evenCount + 1;
                         }
                     }
@@ -40,19 +40,20 @@ import java.util.Arrays;
             }
         });
 
-         // create child thread 1
-         Thread t2 = new Thread(new Runnable() {
-             //thread action on run
+        // create child thread 1
+        Thread t2 = new Thread(new Runnable() {
+            // thread action on run
             public void run() {
                 System.out.println("inside t1\n");
-                for(int i=startInterval; i<=finalInterval; i++) {
-                    //loop through numbers, if odd continue
+                for (int i = startInterval; i <= finalInterval; i++) {
+                    // loop through numbers, if odd continue
                     if (i % 2 != 0) {
                         boolean vampire = isVamp(i);
-                        // if vampire is found 
-                        if (vampire){
-                            //output accessing global variables 
-                            System.out.println("second worker found: " + i + " : [" + App.oddfang1output + "," + App.oddfang2output + "]");
+                        // if vampire is found
+                        if (vampire) {
+                            // output accessing global variables
+                            System.out.println("second worker found: " + i + " : [" + App.oddfang1output + ","
+                                    + App.oddfang2output + "]");
                             App.oddCount = App.oddCount + 1;
                         }
                     }
@@ -60,13 +61,11 @@ import java.util.Arrays;
             }
         });
 
-        
-
         try {
-            //start t1
+            // start t1
             t1.start();
-            
-            //start t2,  join() threads
+
+            // start t2, join() threads
             t2.start();
             t1.join();
             t2.join();
@@ -81,7 +80,7 @@ import java.util.Arrays;
     private static boolean isVamp(long num) {
         // if length of number is not even it cannot be a vampire number
         if (numDigits(num) % 2 != 0) {
-            
+
             return false;
         }
 
@@ -94,7 +93,7 @@ import java.util.Arrays;
                         App.fang1output = fang1;
                         App.fang2output = fang2;
                         return true;
-                    } else{
+                    } else {
                         App.oddfang1output = fang1;
                         App.oddfang2output = fang2;
                         return true;
@@ -102,11 +101,9 @@ import java.util.Arrays;
                 }
             }
         }
-        
+
         return false;
     }
-
-    
 
     private static int numDigits(long num) {
         return Long.toString(Math.abs(num)).length();
@@ -118,15 +115,13 @@ import java.util.Arrays;
             return false;
         }
 
-        // check if the digits of fang1 and fang2 combined are in the same order as the digits of orig
+        // check if the digits of fang1 and fang2 combined are in the same order as the
+        // digits of orig
         byte[] origBytes = Long.toString(orig).getBytes();
         byte[] fangBytes = (Long.toString(fang1) + Long.toString(fang2)).getBytes();
         Arrays.sort(origBytes);
         Arrays.sort(fangBytes);
         return Arrays.equals(origBytes, fangBytes);
     }
-    
 
-    
-    
-  }
+}
